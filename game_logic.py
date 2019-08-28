@@ -1,34 +1,47 @@
 import numpy as np
+import gmpy2
 
-# see https://stackoverflow.com/a/12174125/9127322
-def set_bit(board, bit):
-    board |= 1 << bit
+
+def initialize_files():
+    global FILES
+    FILES = []
+    for file in range(7):
+        file_bb = 0
+        for row in range(7):
+            file_bb |= 1 << (7*file +row)
+        FILES.append(file_bb)
+
+
+def popcount(board):
+    return gmpy2.popcount(board)
 
 
 class GameState:
 
-    def __init__(self, width, height, red, yellow, turn):
+    def __init__(self, red, yellow, turn):
         self.red = red
         self.yellow = yellow
         self.turn = turn
-        self.width = width
-        self.height = height
 
     @classmethod
     def default(cls):
-        return GameState(6, 7, 0, 0, True)
+        return GameState(0, 0, True)
 
     def make_move(self, move):
         assert move >= 0 and move < 7, "Illegal move type"
+
+    def unmake_move(self, move):
+        pass
 
     def __str__(self):
         self.__repr__()
 
     def __repr__(self):
-        #Schöne Formattierung des Spielfelds
+        # Schöne Formattierung des Spielfelds
         pass
 
 
 if __name__ == '__main__':
+    initialize_files()
     test = GameState.default()
-    print(test.red)
+    print(popcount(FILES[0]))
