@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # see https://stackoverflow.com/a/12174125/9127322
 def set_bit(board, bit):
     board |= 1 << bit
@@ -8,12 +7,12 @@ def set_bit(board, bit):
 
 class GameState:
 
-    def __init__(self, width, heigth, red, yellow, turn):
+    def __init__(self, width, height, red, yellow, turn):
         self.red = red
         self.yellow = yellow
         self.turn = turn
         self.width = width
-        self.heigth = heigth
+        self.height = height
 
     @classmethod
     def default(cls):
