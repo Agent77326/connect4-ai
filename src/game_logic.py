@@ -1,15 +1,6 @@
+import bitboards
 import numpy as np
 import gmpy2
-
-
-def initialize_files():
-    global FILES
-    FILES = []
-    for file in range(7):
-        file_bb = 0
-        for row in range(7):
-            file_bb |= 1 << (7*file +row)
-        FILES.append(file_bb)
 
 
 def popcount(board):
@@ -42,6 +33,6 @@ class GameState:
 
 
 if __name__ == '__main__':
-    initialize_files()
+    bitboards.initialize_bitboards()
     test = GameState.default()
-    print(popcount(FILES[0]))
+    print(popcount(bitboards.FILES[0]))
