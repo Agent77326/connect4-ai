@@ -4,7 +4,7 @@ def initialize_ranks():
     for rank in range(7):
         rank_bb = 0
         for file in range(7):
-            rank_bb |= 1 << (7* file  + rank)
+            rank_bb |= 1 << (7 * rank + file)
         RANKS.append(rank_bb)
 
 
@@ -14,8 +14,9 @@ def initialize_files():
     for file in range(7):
         file_bb = 0
         for rank in range(7):
-            file_bb |= 1 << (7 * file + rank)
+            file_bb |= 1 << (7 * rank + file)
         FILES.append(file_bb)
+
 
 def initialize_bitboards():
     initialize_files()
