@@ -1,4 +1,5 @@
 import bitboards
+import text_coloring
 import numpy as np
 import gmpy2
 
@@ -25,14 +26,35 @@ class GameState:
         pass
 
     def __str__(self):
-        self.__repr__()
+        return self.__repr__()
 
     def __repr__(self):
         # Schöne Formattierung des Spielfelds
-        pass
+        res = "+-------+-------+-------+-------+-------+-------+-------+\n"
+        for rank in range(7):
+            res += "| "
+            for file in range(7):
+                idx = 7 * file + rank
+                if (self.yellow >> idx) & 1 != 0:
+                    res += "\t{}\t".format(text_coloring.Style.YELLOW("\u26ab"))
+                elif (self.red >> idx) & 1 != 0:
+                    res += "\t{}\t".format(text_coloring.Style.RED("\u26ab"))
+                else:
+                    res += "\t\t"
+                res += text_coloring.Style.RESET("")
+                if file < 6:
+                    res += "| "
+            res += "|\n"
+            if rank < 6:
+                res += "--------------------------------------------------------+\n"
+        res += "+-------+-------+-------+-------+-------+-------+-------+\n"
+        return res
 
 
 if __name__ == '__main__':
     bitboards.initialize_bitboards()
     test = GameState.default()
+    test.yellow |= 1 << 16
+    test.red |= 1 << 24
     print(popcount(bitboards.FILES[0]))
+    print(test)
