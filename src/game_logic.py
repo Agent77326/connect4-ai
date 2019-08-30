@@ -122,6 +122,10 @@ class GameState:
 
 if __name__ == '__main__':
     bitboards.initialize_bitboards()
+    bitboards.print_bitboard(bitboards.FILES[0])
+    bitboards.print_bitboard(bitboards.FILES[6])
+    bitboards.print_bitboard(bitboards.RANKS[0])
+    bitboards.print_bitboard(bitboards.RANKS[5])
     test = GameState.default()
     test.make_move(1)
     test.make_move(0)
