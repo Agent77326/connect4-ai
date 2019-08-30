@@ -28,6 +28,37 @@ class GameState:
     def default(cls):
         return GameState(0, 0, True)
 
+    @classmethod
+    def from_move_sequence(cls, seq):
+        state = GameState.default()
+        for move in seq:
+            state.make_move(int(move))
+        return state
+
+    def is_mate(self):
+        if self.turn:
+            mating_side = self.yellow
+        else:
+            mating_side = self.red
+
+        # -
+        temp = mating_side & mating_side >> 1
+        if (temp & temp >> 2) != 0:
+            return True
+        # |
+        temp = mating_side & mating_side >> 7
+        if (temp & temp >> 14) != 0:
+            return True
+        # /
+        temp = mating_side & mating_side >> 8
+        if (temp & temp >> 16) != 0:
+            return True
+        # \
+        temp = mating_side & mating_side >> 6
+        if (temp & temp >> 12) != 0:
+            return True
+        return False
+
     def make_move(self, move):
         assert self.winner == Winner.NONE, "Game is already over"
         assert 0 <= move < 7, "Illegal move type"
@@ -38,8 +69,7 @@ class GameState:
         else:
             self.red |= 1 << 7 * pieces_in_file + move
         # Check if game over
-        connect_4 = False
-        if connect_4:
+        if self.is_mate():
             if self.turn:
                 self.winner = Winner.YELLOW
             else:
@@ -102,3 +132,15 @@ if __name__ == '__main__':
     test.unmake_move(0)
     test.unmake_move(0)
     print(test)
+    test = GameState.from_move_sequence("3323130")
+    print(test)
+    print(test.winner)
+    test = GameState.from_move_sequence("01122323353")
+    print(test)
+    print(test.winner)
+    test = GameState.from_move_sequence("32211010030")
+    print(test)
+    print(test.winner)
+    test = GameState.from_move_sequence("0101010")
+    print(test)
+    print(test.winner)
